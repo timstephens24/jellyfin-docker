@@ -11,10 +11,7 @@ LABEL maintainer="timstephens24"
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility"
 
-RUN echo "**** install packages ****" \
-  && apt update \
-  && apt install -y --no-install-recommends at gnupg libfontconfig1 libfreetype6 wget \
-  && echo "**** install jellyfin *****" \
+RUN echo "**** install jellyfin *****" \
   && curl -s https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | apt-key add - \
   && echo 'deb [arch=amd64] https://repo.jellyfin.org/ubuntu focal main' > /etc/apt/sources.list.d/jellyfin.list \
   && echo 'deb [arch=amd64] https://repo.jellyfin.org/ubuntu focal unstable' >> /etc/apt/sources.list.d/jellyfin.list \
@@ -27,25 +24,17 @@ RUN echo "**** install packages ****" \
   && apt update \
   && apt install -y --no-install-recommends jellyfin-ffmpeg \
   && cd /tmp \
-  && wget https://repo.jellyfin.org/releases/server/debian/stable/meta/jellyfin_10.7.0~rc1_all.deb \
-  && wget https://repo.jellyfin.org/releases/server/debian/stable/server/jellyfin-server_10.7.0~rc1_amd64.deb \
-  && wget https://repo.jellyfin.org/releases/server/debian/stable/web/jellyfin-web_10.7.0~rc1_all.deb \
+  && curl -o /tmp/jellyfin.deb -L \
+    https://repo.jellyfin.org/releases/server/debian/stable/meta/jellyfin_10.7.0~rc1_all.deb \
+  && curl -o /tmp/jellyfin-server.deb -L \
+    https://repo.jellyfin.org/releases/server/debian/stable/server/jellyfin-server_10.7.0~rc1_amd64.deb \
+  && curl -o /tmp/jellyfin-web.deb -L \
+    https://repo.jellyfin.org/releases/server/debian/stable/web/jellyfin-web_10.7.0~rc1_all.deb \
   && dpkg -i jellyfin-web_10.7.0~rc1_all.deb \
   && dpkg -i jellyfin-server_10.7.0~rc1_amd64.deb \
   && dpkg -i jellyfin_10.7.0~rc1_all.deb \
-  && apt install -y --no-install-recommends at i965-va-driver intel-media-va-driver-non-free libfontconfig1 libfreetype6 libssl1.1 mesa-va-drivers \
   && echo "**** cleanup ****" \
-  && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* \
-  && mkdir /tmp/neo \
-  && cd /tmp/neo \
-  && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-gmmlib_20.3.2_amd64.deb \
-  && wget https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.5699/intel-igc-core_1.0.5699_amd64.deb \
-  && wget https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.5699/intel-igc-opencl_1.0.5699_amd64.deb \
-  && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-opencl_20.48.18558_amd64.deb \
-  && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-ocloc_20.48.18558_amd64.deb \
-  && wget https://github.com/intel/compute-runtime/releases/download/20.48.18558/intel-level-zero-gpu_1.0.18558_amd64.deb \
-  && dpkg -i *.deb
-
+  && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
 # add local files
 COPY root/ /
