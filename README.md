@@ -13,7 +13,7 @@ The architectures supported by this image are:
 
 | Architecture | Tag |
 | :----: | --- |
-| x86-64 | amd64-latest |
+| x86-64 | latest |
 
 ## Version Tags
 
@@ -155,7 +155,7 @@ Hardware acceleration users for Intel Quicksync will need to mount their /dev/dr
 
 ```--device=/dev/dri:/dev/dri```
 
-We will automatically ensure the abc user inside of the container has the proper permissions to access this device.
+I will automatically ensure the abc user inside of the container has the proper permissions to access this device.
 
 ### Nvidia
 
