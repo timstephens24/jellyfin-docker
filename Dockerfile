@@ -21,16 +21,13 @@ RUN echo "**** install jellyfin *****" \
   #    JELLYFIN="jellyfin=${JELLYFIN_RELEASE}"; \
   #  fi \
   #&& apt-get install -y --no-install-recommends at i965-va-driver intel-media-va-driver-non-free ${JELLYFIN} jellyfin-ffmpeg jellyfin-server jellyfin-web libfontconfig1 libfreetype6 libssl1.1 mesa-va-drivers \
-  && apt update \
-  && apt install -y --no-install-recommends jellyfin-ffmpeg \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends jellyfin-ffmpeg \
   && curl -o /tmp/jellyfin.deb -L \
-    https://repo.jellyfin.org/releases/server/debian/stable/meta/jellyfin_10.7.0~rc1_all.deb \
-  && curl -o /tmp/jellyfin-server.deb -L \
-    https://repo.jellyfin.org/releases/server/debian/stable/server/jellyfin-server_10.7.0~rc1_amd64.deb \
+    https://repo.jellyfin.org/releases/server/debian/stable-rc/server/jellyfin-server_10.7.0~rc3_amd64.deb \
   && curl -o /tmp/jellyfin-web.deb -L \
-    https://repo.jellyfin.org/releases/server/debian/stable/web/jellyfin-web_10.7.0~rc1_all.deb \
+    https://repo.jellyfin.org/releases/server/debian/stable-rc/web/jellyfin-web_10.7.0~rc3_all.deb \
   && dpkg -i /tmp/jellyfin-web.deb \
-  && dpkg -i /tmp/jellyfin-server.deb \
   && dpkg -i /tmp/jellyfin.deb \
   && echo "**** cleanup ****" \
   && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
